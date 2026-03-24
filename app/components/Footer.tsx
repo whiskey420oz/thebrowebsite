@@ -1,57 +1,72 @@
 import Link from "next/link";
+import HashNavLink from "./HashNavLink";
+import { site } from "@/lib/site";
 
 export default function Footer() {
   return (
-    <footer className="border-t border-white/10 bg-[#030712] text-white/70">
-      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-        <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
+    <footer className="relative border-t border-white/[0.08] bg-[#020617] text-slate-400">
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-sky-500/35 to-transparent"
+        aria-hidden
+      />
+      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+        <div className="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
           <div className="max-w-md">
-            <div className="text-white font-semibold">The Bro Laptop Store</div>
-            <p className="mt-3 text-sm leading-relaxed">
-              Quality laptops, upgrades, and trusted service at the best price.
+            <div className="font-display text-lg font-extrabold tracking-tight text-white">
+              {site.name}
+            </div>
+            <p className="mt-3 text-sm leading-relaxed text-slate-400">{site.description}</p>
+            <p className="mt-2 text-xs font-medium text-slate-500">
+              {site.addressLocality} · {site.addressRegion}
             </p>
-            <div className="mt-4 text-sm">
-              <span className="text-white/80">Phone:</span>{" "}
-              <a className="hover:text-white transition-colors" href="tel:+639123456789">
-                +63 912 345 6789
+            <div className="mt-5 text-sm">
+              <span className="font-semibold text-slate-300">Phone:</span>{" "}
+              <a
+                className="text-sky-300 underline decoration-sky-500/40 underline-offset-4 transition-colors hover:text-sky-200"
+                href={`tel:${site.phoneTel}`}
+              >
+                {site.phoneDisplay}
               </a>
             </div>
           </div>
 
-          <div className="grid gap-6 sm:grid-cols-2">
+          <div className="grid gap-8 sm:grid-cols-2">
             <div>
-              <div className="text-sm font-semibold text-white/90">Facebook</div>
+              <div className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                Facebook
+              </div>
               <Link
-                href="https://facebook.com/"
+                href={site.facebookUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="mt-3 inline-flex rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/80 hover:bg-white/10 hover:text-white transition-colors"
+                className="mt-3 inline-flex rounded-xl border border-white/10 bg-white/[0.04] px-4 py-2.5 text-sm font-semibold text-slate-200 ring-1 ring-white/[0.05] transition-[transform,background-color] hover:bg-white/[0.08]"
               >
                 Visit our Page
               </Link>
             </div>
             <div>
-              <div className="text-sm font-semibold text-white/90">Quick Links</div>
+              <div className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                Quick links
+              </div>
               <div className="mt-3 flex flex-col gap-2 text-sm">
-                <Link className="hover:text-white transition-colors" href="/#products">
+                <HashNavLink className="w-fit text-slate-300 hover:text-white" href="/#products">
                   Products
-                </Link>
-                <Link className="hover:text-white transition-colors" href="/#services">
+                </HashNavLink>
+                <HashNavLink className="w-fit text-slate-300 hover:text-white" href="/#services">
                   Services
-                </Link>
-                <Link className="hover:text-white transition-colors" href="/#contact">
+                </HashNavLink>
+                <HashNavLink className="w-fit text-slate-300 hover:text-white" href="/#contact">
                   Contact
-                </Link>
+                </HashNavLink>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="mt-10 border-t border-white/10 pt-6 text-xs text-white/50">
-          © {new Date().getFullYear()} The Bro Laptop Store. All rights reserved.
+        <div className="mt-12 border-t border-white/[0.06] pt-6 text-xs text-slate-500">
+          © {new Date().getFullYear()} {site.name}. All rights reserved.
         </div>
       </div>
     </footer>
   );
 }
-

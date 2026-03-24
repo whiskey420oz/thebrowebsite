@@ -3,6 +3,9 @@
 import type React from "react";
 import { useState } from "react";
 
+const fieldClass =
+  "w-full rounded-xl border border-white/[0.1] bg-[#020617]/80 px-3.5 py-2.5 text-white shadow-inner shadow-black/20 placeholder:text-slate-500 outline-none transition-[border-color,box-shadow] focus:border-sky-500/40 focus:ring-2 focus:ring-sky-500/20";
+
 export default function ContactForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -38,11 +41,13 @@ export default function ContactForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="space-y-4">
-      <div className="rounded-2xl border border-white/10 bg-white/5 p-5 shadow-lg shadow-black/20">
-        <div className="space-y-4">
+    <form onSubmit={onSubmit} className="relative">
+      <div className="absolute -inset-px rounded-[1.35rem] bg-gradient-to-br from-sky-500/25 via-transparent to-blue-600/20 opacity-60 blur-sm" />
+      <div className="relative overflow-hidden rounded-[1.35rem] border border-white/[0.08] bg-gradient-to-b from-white/[0.06] to-white/[0.02] p-6 shadow-[0_28px_56px_-32px_rgba(0,0,0,0.9)] ring-1 ring-white/[0.05] sm:p-8">
+        <div className="absolute inset-0 bg-tech-grid opacity-40" aria-hidden />
+        <div className="relative space-y-5">
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-white/90" htmlFor="name">
+            <label className="text-xs font-bold uppercase tracking-wider text-slate-400" htmlFor="name">
               Name
             </label>
             <input
@@ -51,13 +56,13 @@ export default function ContactForm() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
-              className="w-full rounded-xl border border-white/10 bg-[#030712] px-3 py-2 text-white placeholder:text-white/40 outline-none focus:border-[#60A5FA]/60"
-              placeholder="Your name"
+              className={fieldClass}
+              autoComplete="name"
             />
           </div>
 
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-white/90" htmlFor="email">
+            <label className="text-xs font-bold uppercase tracking-wider text-slate-400" htmlFor="email">
               Email
             </label>
             <input
@@ -67,13 +72,13 @@ export default function ContactForm() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full rounded-xl border border-white/10 bg-[#030712] px-3 py-2 text-white placeholder:text-white/40 outline-none focus:border-[#60A5FA]/60"
-              placeholder="you@example.com"
+              className={fieldClass}
+              autoComplete="email"
             />
           </div>
 
           <div className="space-y-2">
-            <label className="block text-sm font-medium text-white/90" htmlFor="message">
+            <label className="text-xs font-bold uppercase tracking-wider text-slate-400" htmlFor="message">
               Message
             </label>
             <textarea
@@ -83,19 +88,21 @@ export default function ContactForm() {
               onChange={(e) => setMessage(e.target.value)}
               required
               rows={5}
-              className="w-full resize-none rounded-xl border border-white/10 bg-[#030712] px-3 py-2 text-white placeholder:text-white/40 outline-none focus:border-[#60A5FA]/60"
-              placeholder="What laptop are you looking for? Any budget or specs?"
+              className={`${fieldClass} resize-none`}
             />
           </div>
 
           {error ? (
-            <div className="text-sm text-red-300" role="alert">
+            <div className="rounded-xl border border-red-500/25 bg-red-950/40 px-3 py-2 text-sm text-red-200" role="alert">
               {error}
             </div>
           ) : null}
 
           {status === "success" ? (
-            <div className="text-sm text-green-300" role="status">
+            <div
+              className="rounded-xl border border-emerald-500/25 bg-emerald-950/35 px-3 py-2 text-sm text-emerald-200"
+              role="status"
+            >
               Thanks! Your message has been sent. We’ll get back to you soon.
             </div>
           ) : null}
@@ -103,13 +110,16 @@ export default function ContactForm() {
           <button
             type="submit"
             disabled={status === "loading"}
-            className="mt-1 inline-flex w-full items-center justify-center rounded-xl bg-[#1D4ED8] px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-[#1D4ED8]/20 transition-colors hover:bg-[#1E40AF] disabled:opacity-60"
+            className="group relative mt-2 inline-flex w-full items-center justify-center overflow-hidden rounded-xl bg-gradient-to-r from-[#2563eb] to-[#1d4ed8] px-4 py-3.5 text-sm font-bold text-white shadow-[0_0_28px_-6px_rgba(37,99,235,0.75)] ring-1 ring-white/10 transition-[transform,box-shadow] hover:-translate-y-0.5 hover:shadow-[0_0_36px_-4px_rgba(56,189,248,0.45)] disabled:translate-y-0 disabled:opacity-60"
           >
-            {status === "loading" ? "Sending..." : "Send Message"}
+            <span className="relative z-10">{status === "loading" ? "Sending…" : "Send message"}</span>
+            <span
+              className="pointer-events-none absolute inset-0 translate-y-full bg-gradient-to-t from-white/0 via-white/10 to-white/0 opacity-0 transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100"
+              aria-hidden
+            />
           </button>
         </div>
       </div>
     </form>
   );
 }
-
